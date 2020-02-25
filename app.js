@@ -16,12 +16,8 @@ new Vue({
     attack: function() {
       const damage = this.calculateDamage(3, 10)
       this.monsterHealth -= damage
-
-      if (this.monsterHealth <= 0) {
-        this.winner = 'Player'
-        this.gameIsRunning = false
-        return
-      }
+      this.checkWin()
+      if (this.winner) return
       this.monsterAttack()
     },
     monsterAttack: function(min, max) {
@@ -30,10 +26,7 @@ new Vue({
       setTimeout(() => {
         this.playerHealth -= damage
 
-        if (this.playerHealth <= 0) {
-          this.winner = 'Monster'
-          this.gameIsRunning = false
-        }
+        this.checkWin()
       }, 500)
     },
     specialAttack: function() {
@@ -48,7 +41,7 @@ new Vue({
       this.monsterAttack(3, 25)
     },
     heal: function() {
-      this.playerHealth += Math.floor(Math.random() * 30)
+      this.playerHealth += 10
       this.monsterAttack()
     },
     giveUp: function() {
@@ -56,6 +49,18 @@ new Vue({
     },
     calculateDamage: function(min, max) {
       return Math.max(Math.floor(Math.random() * max) + 1, min)
+    },
+    checkWin: function() {
+      if (this.monsterHealth <= 0) {
+        this.winner = 'Tu as'
+        this.gameIsRunning = false
+        return
+      }
+      if (this.playerHealth <= 0) {
+        this.winner = 'Le monstre a'
+        this.gameIsRunning = false
+        return
+      }
     },
   },
 })
