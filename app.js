@@ -5,10 +5,12 @@ new Vue({
     monsterHealth: 100,
     gameIsRunning: false,
     winner: undefined,
+    turns: [],
   },
   methods: {
     startGame: function() {
       this.winner = undefined
+      this.turns = []
       this.gameIsRunning = true
       this.playerHealth = 100
       this.monsterHealth = 100
@@ -16,13 +18,20 @@ new Vue({
     attack: function() {
       const damage = this.calculateDamage(3, 10)
       this.monsterHealth -= damage
+      this.turns.unshift({
+        text: `Tu infliges ${damage} dégats au monstre`,
+        isPlayer: true,
+      })
       this.checkWin()
       if (this.winner) return
       this.monsterAttack()
     },
     monsterAttack: function(min, max) {
       const damage = this.calculateDamage(min || 3, max || 12)
-
+      this.turns.unshift({
+        text: `Le monstre t'infliges ${damage} dégats`,
+        isPlayer: false,
+      })
       setTimeout(() => {
         this.playerHealth -= damage
 
@@ -32,7 +41,10 @@ new Vue({
     specialAttack: function() {
       const damage = this.calculateDamage(3, 25)
       this.monsterHealth -= damage
-
+      this.turns.unshift({
+        text: `Tu infliges ${damage} dégats au monstre`,
+        isPlayer: true,
+      })
       if (this.monsterHealth <= 0) {
         this.winner = 'Player'
         this.gameIsRunning = false
@@ -61,6 +73,9 @@ new Vue({
         this.gameIsRunning = false
         return
       }
+    },
+    getTurn: function(player, damage, health) {
+      return `${player} damage : ${damage} `
     },
   },
 })
