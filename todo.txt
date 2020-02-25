@@ -1,0 +1,5 @@
+attack special-attack give-up fonction etc...
+
+fonction for simulate the monster attack turn
+to generate a random number
+to add a turn this log (l.44) we're outputting down there which we as a side note also need to store
