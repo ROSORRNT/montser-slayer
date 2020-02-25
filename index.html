@@ -56,16 +56,22 @@
         </div>
       </section>
 
-      <section class="row log" v-if="turns.length > 0">
-        <div class="small-12 columns">
-          <ul>
-            <li v-for="turn in turns">{{ turn.text }}</li>
-          </ul>
-        </div>
-      </section>
       <section class="row log" v-if="winner">
         <div class="small-12 columns">
           <h1>{{winner}} gagné</h1>
+        </div>
+      </section>
+
+      <section class="row log" v-if="turns.length > 0">
+        <div class="small-12 columns">
+          <ul>
+            <li
+              v-for="turn in turns"
+              :class="{'player-turn' : turn.isPlayer, 'monster-turn': !turn.isPlayer}"
+            >
+              {{ turn.text }}
+            </li>
+          </ul>
         </div>
       </section>
     </div>
