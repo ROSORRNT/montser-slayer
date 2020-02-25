@@ -27,7 +27,7 @@
             <div
               class="healthbar text-center"
               style="background-color: green; margin: 0; color: white;"
-              :style="{width: playerHealth + '%'}"
+              :style="{width: monsterHealth + '%'}"
             >
               {{monsterHealth}}
             </div>
@@ -37,7 +37,7 @@
 
       <section class="row controls" v-if="!gameIsRunning">
         <div class="small-12 columns">
-          <button id="start-game" @click="gameIsRunning = true">
+          <button id="start-game" @click="startGame">
             NOUVELLE PARTIE
           </button>
         </div>
