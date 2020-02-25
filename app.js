@@ -14,10 +14,7 @@ new Vue({
       this.monsterHealth = 100
     },
     attack: function() {
-      const max = 10
-      const min = 3
-      // genere a random between three and ten
-      const damage = Math.max(Math.floor(Math.random() * max) + 1, min)
+      const damage = this.calculateDamage(3, 10)
       this.monsterHealth -= damage
 
       if (this.monsterHealth <= 0) {
@@ -27,10 +24,8 @@ new Vue({
       }
       this.monsterAttack()
     },
-    monsterAttack: function() {
-      const max = 10
-      const min = 3
-      const damage = Math.max(Math.floor(Math.random() * max) + 1, min)
+    monsterAttack: function(min, max) {
+      const damage = this.calculateDamage(min || 3, max || 12)
 
       setTimeout(() => {
         this.playerHealth -= damage
@@ -41,13 +36,26 @@ new Vue({
         }
       }, 500)
     },
-    specialAttack: function() {},
+    specialAttack: function() {
+      const damage = this.calculateDamage(3, 25)
+      this.monsterHealth -= damage
+
+      if (this.monsterHealth <= 0) {
+        this.winner = 'Player'
+        this.gameIsRunning = false
+        return
+      }
+      this.monsterAttack(3, 25)
+    },
     heal: function() {
       this.playerHealth += Math.floor(Math.random() * 30)
       this.monsterAttack()
     },
     giveUp: function() {
       this.gameIsRunning = false
+    },
+    calculateDamage: function(min, max) {
+      return Math.max(Math.floor(Math.random() * max) + 1, min)
     },
   },
 })
